@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boltix — Магазин проверенной техники</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#ffffff;
+    --gray-50:#f3f5f8;
+    --gray-100:#e8ebf0;
+    --blue-50:#eaf2fd;
+    --blue-500:#2569eb;
+    --blue-600:#1a56d6;
+    --ink:#131a24;
+    --ink-soft:#5c6470;
+    --line:#dde2e9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    background:var(--white);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    letter-spacing:-0.01em;
+    line-height:1.1;
+  }
+  .accent{color:var(--blue-500);font-style:italic;}
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+  a{color:inherit;text-decoration:none;}
+
+  /* ===== crumb ===== */
+  .crumb{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .crumb .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--blue-500);
+    box-shadow:0 0 0 4px var(--blue-50);
+  }
+
+  /* ===== hero ===== */
+  .hero{
+    position:relative;
+    padding:64px 0 96px;
+    background:
+      radial-gradient(1100px 480px at 82% -10%, #dfeafc 0%, transparent 55%),
+      linear-gradient(180deg, #f6f8fb 0%, #eef1f5 100%);
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+      linear-gradient(to right, rgba(20,30,45,.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(20,30,45,.035) 1px, transparent 1px);
+    background-size:44px 44px;
+    mask-image:radial-gradient(700px 380px at 78% 10%, black, transparent 75%);
+    pointer-events:none;
+  }
+  .hero-inner{position:relative;z-index:1;text-align:center;padding-top:12px;}
+  .hero h1{
+    font-size:clamp(56px,9vw,108px);
+    margin:26px 0 10px;
+  }
+  .hero .sub{
+    font-size:19px;
+    color:var(--ink-soft);
+    margin-bottom:34px;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--blue-500);
+    color:#fff;
+    font-weight:600;
+    font-size:15px;
+    padding:15px 30px;
+    border-radius:100px;
+    box-shadow:0 12px 24px -10px rgba(37,105,235,.55);
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .btn:hover{
+    background:var(--blue-600);
+    transform:translateY(-1px);
+    box-shadow:0 16px 28px -10px rgba(37,105,235,.6);
+  }
+  .btn:focus-visible{outline:3px solid var(--blue-600);outline-offset:3px;}
+
+  .plate{
+    position:relative;
+    margin:56px auto 0;
+    max-width:760px;
+    border-radius:24px;
+    background:linear-gradient(155deg,var(--blue-500),var(--blue-600) 60%);
+    padding:38px 32px;
+    color:#fff;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:0;
+    box-shadow:0 30px 60px -25px rgba(37,105,235,.45);
+  }
+  .plate .stat{
+    text-align:center;
+    padding:0 10px;
+    border-left:1px solid rgba(255,255,255,.25);
+  }
+  .plate .stat:first-child{border-left:none;}
+  .plate .stat b{
+    display:block;
+    font-family:'Fraunces',serif;
+    font-size:30px;
+    font-weight:500;
+    margin-bottom:4px;
+  }
+  .plate .stat span{
+    font-size:12px;
+    color:rgba(255,255,255,.85);
+    letter-spacing:.06em;
+    text-transform:uppercase;
+  }
+
+  /* ===== sections generic ===== */
+  section{padding:88px 0;}
+  .eyebrow{
+    display:block;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--blue-500);
+    margin-bottom:14px;
+  }
+  .section-head{max-width:560px;margin-bottom:48px;}
+  .section-head h2{font-size:clamp(30px,4vw,42px);}
+  .section-head p{color:var(--ink-soft);margin-top:12px;font-size:16px;}
+
+  /* ===== advantages ===== */
+  .adv-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+  .card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:32px;
+    box-shadow:0 20px 40px -30px rgba(20,30,45,.25);
+    position:relative;
+  }
+  .card .ref{
+    position:absolute;
+    top:24px;right:26px;
+    font-size:11px;
+    letter-spacing:.1em;
+    color:var(--ink-soft);
+    font-weight:600;
+  }
+  .icon{
+    width:46px;height:46px;
+    border-radius:12px;
+    background:var(--blue-50);
+    color:var(--blue-500);
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:20px;
+  }
+  .card h3{font-size:20px;margin-bottom:8px;font-weight:600;}
+  .card p{color:var(--ink-soft);font-size:15px;}
+
+  .stock-card{
+    grid-column:1 / -1;
+    background:linear-gradient(120deg,var(--blue-50),#f7fafe);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    flex-wrap:wrap;
+  }
+  .stock-card .num{
+    font-family:'Fraunces',serif;
+    font-size:46px;
+    color:var(--blue-500);
+    font-weight:500;
+  }
+
+  .divider{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-top:56px;
+    color:var(--ink-soft);
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+  }
+  .divider::before,.divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:var(--line);
+  }
+
+  /* ===== about ===== */
+  .about{background:var(--gray-50);}
+  .about-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:56px;
+    align-items:center;
+  }
+  .about-stats{
+    display:flex;
+    gap:32px;
+    margin-top:32px;
+    flex-wrap:wrap;
+  }
+  .about-stats div b{
+    display:block;
+    font-family:'Fraunces',serif;
+    font-size:32px;
+    color:var(--blue-500);
+    font-weight:500;
+  }
+  .about-stats div span{
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+  .photo{
+    border-radius:20px;
+    aspect-ratio:4/5;
+    background:
+      radial-gradient(circle at 35% 30%, #ff8a3d 0%, transparent 38%),
+      radial-gradient(circle at 60% 55%, #2569eb 0%, transparent 45%),
+      linear-gradient(160deg,#11161f,#080a0f 70%);
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 30px 60px -25px rgba(15,20,30,.5);
+  }
+  .photo::after{
+    content:"";
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size:28px 28px;
+  }
+  .photo .tag{
+    position:absolute;
+    bottom:20px;left:20px;
+    color:#fff;
+    font-size:12px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    background:rgba(0,0,0,.35);
+    padding:8px 12px;
+    border-radius:8px;
+    backdrop-filter:blur(4px);
+  }
+
+  /* ===== reviews ===== */
+  .stars{display:flex;gap:4px;margin-bottom:20px;}
+  .stars svg{width:18px;height:18px;fill:var(--blue-500);}
+  .review-card{
+    max-width:640px;
+    margin:0 auto;
+    text-align:center;
+    padding:48px 40px;
+  }
+  .review-card p.quote{
+    font-family:'Fraunces',serif;
+    font-size:22px;
+    font-weight:400;
+    line-height:1.45;
+    color:var(--ink);
+    margin-bottom:24px;
+  }
+  .reviewer{font-weight:600;font-size:15px;}
+  .reviewer span{display:block;color:var(--ink-soft);font-weight:400;font-size:13px;margin-top:2px;}
+
+  /* ===== faq ===== */
+  .faq{background:var(--gray-50);}
+  .faq-item{
+    border:1px solid var(--blue-500);
+    border-radius:14px;
+    margin-bottom:14px;
+    background:#fff;
+    overflow:hidden;
+  }
+  .faq-q{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:20px 24px;
+    background:none;
+    border:none;
+    text-align:left;
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    font-weight:600;
+    color:var(--ink);
+    cursor:pointer;
+  }
+  .faq-q .plus{
+    flex-shrink:0;
+    width:24px;height:24px;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--blue-500);
+    font-size:20px;
+    transition:transform .25s ease;
+  }
+  .faq-item.open .faq-q .plus{transform:rotate(45deg);}
+  .faq-a{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .28s ease;
+  }
+  .faq-a p{
+    padding:0 24px 20px;
+    color:var(--ink-soft);
+    font-size:15px;
+    opacity:0;
+    transform:translateY(-10px);
+    transition:opacity .32s ease, transform .32s ease;
+  }
+  .faq-item.open .faq-a p{
+    opacity:1;
+    transform:translateY(0);
+    transition:opacity .38s ease .1s, transform .38s ease .1s;
+  }
+
+  /* ===== footer cta ===== */
+  .cta-final{
+    text-align:center;
+    padding:100px 0;
+  }
+  .cta-final h2{font-size:clamp(28px,4vw,40px);margin-bottom:14px;}
+  .cta-final p{color:var(--ink-soft);margin-bottom:32px;}
+
+  /* ===== contacts ===== */
+  .contacts{
+    background:
+      radial-gradient(900px 400px at 15% 0%, #eaf2fd 0%, transparent 55%),
+      linear-gradient(180deg,#f8f9fb,#eef1f5);
+  }
+  .contact-card{
+    max-width:640px;
+    margin:0 auto;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:24px;
+    padding:44px 40px 40px;
+    box-shadow:0 30px 60px -30px rgba(20,30,45,.3);
+  }
+  .branch{
+    display:flex;
+    gap:16px;
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .branch:last-of-type{border-bottom:none;}
+  .branch .pin{
+    flex-shrink:0;
+    width:44px;height:44px;
+    border-radius:12px;
+    background:var(--blue-50);
+    color:var(--blue-500);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .branch .label{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:4px;
+  }
+  .branch p{font-size:14.5px;color:var(--ink);}
+  .branch p.phone{color:var(--ink-soft);margin-top:2px;}
+
+  .contact-actions{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-top:26px;
+  }
+  .action-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:15px 20px;
+    border-radius:14px;
+    font-weight:600;
+    font-size:15px;
+    color:#fff;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .action-btn:hover{transform:translateY(-1px);}
+  .action-btn:focus-visible{outline:3px solid var(--blue-600);outline-offset:2px;}
+  .action-btn.map{
+    background:linear-gradient(120deg,#2569eb,#1a56d6);
+    box-shadow:0 14px 26px -14px rgba(37,105,235,.55);
+  }
+  .action-btn.whatsapp{
+    background:#25D366;
+    box-shadow:0 14px 26px -14px rgba(37,211,102,.5);
+  }
+  .action-btn.instagram{
+    background:linear-gradient(135deg,#f9ce34,#ee2a7b,#6228d7);
+    box-shadow:0 14px 26px -14px rgba(238,42,123,.45);
+  }
+
+  /* ===== footer ===== */
+  footer{
+    border-top:1px solid var(--line);
+    padding:56px 0 28px;
+    background:linear-gradient(180deg,#f8f9fb,#f1f3f6);
+  }
+  .footer-top{
+    display:flex;
+    justify-content:space-between;
+    gap:40px;
+    flex-wrap:wrap;
+    padding-bottom:36px;
+  }
+  .footer-brand h3{
+    font-size:26px;
+    color:var(--blue-500);
+    margin-bottom:10px;
+  }
+  .footer-brand p{
+    color:var(--ink-soft);
+    font-size:14px;
+    max-width:280px;
+  }
+  .footer-cols{
+    display:flex;
+    gap:64px;
+    flex-wrap:wrap;
+  }
+  .footer-col h4{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:14px;
+  }
+  .footer-col a{
+    display:block;
+    font-size:14.5px;
+    color:var(--ink);
+    margin-bottom:10px;
+  }
+  .footer-col a:hover{color:var(--blue-500);}
+  .ig-square{
+    width:40px;height:40px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#f9ce34,#ee2a7b,#6228d7);
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;
+  }
+  .footer-bottom{
+    display:flex;
+    justify-content:center;
+    padding-top:32px;
+    border-top:1px solid var(--line);
+  }
+  .to-top{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:linear-gradient(120deg,#2569eb,#1a56d6);
+    color:#fff;
+    font-size:14px;
+    font-weight:600;
+    padding:12px 22px;
+    border-radius:100px;
+    box-shadow:0 12px 24px -12px rgba(37,105,235,.55);
+    transition:transform .18s ease;
+  }
+  .to-top:hover{transform:translateY(-1px);}
+  .copyright{
+    text-align:center;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-top:24px;
+  }
+
+  @media (max-width:760px){
+    .adv-grid{grid-template-columns:1fr;}
+    .about-grid{grid-template-columns:1fr;}
+    .plate{grid-template-columns:1fr;gap:18px;}
+    .plate .stat{border-left:none;border-top:1px solid rgba(255,255,255,.12);padding-top:14px;}
+    .plate .stat:first-child{border-top:none;padding-top:0;}
+    section{padding:64px 0;}
+    .footer-top{flex-direction:column;}
+    .footer-cols{gap:40px;}
+    .contact-card{padding:32px 24px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="wrap hero-inner">
+    <span class="crumb"><span class="dot"></span>Промышленный магазин</span>
+    <h1>Bolt<span class="accent">ix</span></h1>
+    <p class="sub">Магазин проверенной техники.</p>
+    <a class="btn" href="#contacts">
+      Связаться с нами
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+
+    <div class="plate">
+      <div class="stat"><b>16+</b><span>лет на рынке</span></div>
+      <div class="stat"><b>98%</b><span>довольных клиентов</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ADVANTAGES -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Почему Boltix</span>
+      <h2>Собрано так, чтобы <span class="accent">работало</span></h2>
+    </div>
+
+    <div class="adv-grid">
+      <div class="card">
+        <div class="icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 6 6 1-4.5 4.4L17.5 20 12 16.8 6.5 20l1-6.6L3 9l6-1 3-6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Высокое качество</h3>
+        <p>Только проверенные производители и оригинальные поставки.</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.6"/></svg>
+        </div>
+        <h3>Доступные цены</h3>
+        <p>Честная стоимость без переплат — напрямую от поставщика к вам.</p>
+      </div>
+
+      <div class="card stock-card">
+        <div>
+          <h3 style="font-size:22px;">Большой ассортимент</h3>
+          <p>Широкий выбор товаров на складе и под заказ.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">Качество • Скорость • Надёжность</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="wrap about-grid">
+    <div>
+      <span class="eyebrow">О магазине</span>
+      <h2>Точность <span class="accent">в</span> каждой детали</h2>
+      <p style="color:var(--ink-soft);margin-top:16px;font-size:16px;max-width:460px;">
+        Ждём вас в филиалах в Атырау и Актау — подберём деталь, проконсультируем и отгрузим быстро.
+      </p>
+      <div class="about-stats">
+        <div><b>16+</b><span>лет на рынке</span></div>
+        <div><b>98%</b><span>довольных клиентов</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTS -->
+<section class="contacts" id="contacts">
+  <div class="wrap" style="text-align:center;">
+    <span class="eyebrow">Контакты</span>
+    <h2 class="section-head" style="margin:0 auto 40px;">Свяжите<span class="accent">с</span>ь <span class="accent">с нами</span></h2>
+  </div>
+
+  <div class="wrap">
+    <div class="contact-card">
+      <div class="branch">
+        <div class="pin">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.7"/></svg>
+        </div>
+        <div style="text-align:left;">
+          <div class="label">Филиал в Актау</div>
+          <p>г. Актау, 3 мкр, 8 дом, п-е 6</p>
+          <p class="phone">Тел.: 8(702) 900 63 63</p>
+        </div>
+      </div>
+
+      <div class="branch">
+        <div class="pin">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.7"/></svg>
+        </div>
+        <div style="text-align:left;">
+          <div class="label">Филиал в Атырау</div>
+          <p>г. Атырау, ул. Таумана Амандосова, строение 47Б</p>
+          <p class="phone">Тел.: 8(705) 551 52 52</p>
+        </div>
+      </div>
+
+      <div class="contact-actions">
+        <a class="action-btn map" href="https://2gis.kz/atyrau/geo/70000001035435371" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 20l-6-2V6l6 2m0 12l6-2m-6 2V8m6 10l6 2V4l-6 2m0 12V6m0 0L9 8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Наше местоположение
+        </a>
+        <a class="action-btn whatsapp" href="https://wa.me/77055515252" target="_blank" rel="noopener">
+          <img src="data:image/jpeg;base64,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" alt="WhatsApp" width="18" height="18" style="border-radius:4px;object-fit:cover;">
+          WhatsApp
+        </a>
+        <a class="action-btn instagram" href="https://www.instagram.com/podshipniki.aktau?igsh=djVzemg3cHZkb2Fi" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5.5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.7"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor"/></svg>
+          Instagram
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="wrap" style="max-width:760px;">
+    <div class="section-head" style="margin-left:auto;margin-right:auto;text-align:center;">
+      <span class="eyebrow" style="display:block;text-align:center;">Вопросы</span>
+      <h2>Частые <span class="accent">вопросы</span></h2>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item open">
+        <button class="faq-q">Делаете ли вы доставку по регионам?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Да, отправляем транспортными компаниями по всему Казахстану.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Можно ли подобрать подшипник по образцу?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Конечно. Привезите образец или пришлите фото с маркировкой — подберём оригинал.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Работаете ли вы с юр. лицами?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Да, выставляем счета, предоставляем все закрывающие документы и работаем по договору.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Какие способы оплаты доступны?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Наличные, Kaspi, Halyk, рассрочка, безналичный расчёт для организаций.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-final">
+  <div class="wrap">
+    <h2>Нужна деталь? <span class="accent">Найдём.</span></h2>
+    <p>Напишите нам — подберём и отгрузим в тот же день.</p>
+    <a class="btn" href="https://wa.me/77055515252" target="_blank" rel="noopener">Связаться с нами</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <h3>Boltix</h3>
+        <p>Промышленный магазин подшипников, уплотнений и инструмента.</p>
+      </div>
+
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>Разделы</h4>
+          <a href="#about">О магазине</a>
+          <a href="#contacts">Контакты</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <a class="to-top" href="#top" id="to-top">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Вернуться в начало
+      </a>
+    </div>
+    <p class="copyright">© 2026 Boltix. Все права защищены.</p>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.faq-item').forEach(item=>{
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    if(item.classList.contains('open')){
+      a.style.maxHeight = a.scrollHeight + 'px';
+    }
+    q.addEventListener('click', ()=>{
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(other=>{
+        if(other!==item){
+          other.classList.remove('open');
+          other.querySelector('.faq-a').style.maxHeight = null;
+        }
+      });
+      if(isOpen){
+        item.classList.remove('open');
+        a.style.maxHeight = null;
+      } else {
+        item.classList.add('open');
+        a.style.maxHeight = a.scrollHeight + 'px';
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
